@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <title>易管银务-系统登录</title>
+    <!-- css 样式 -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        body{font-size: 14px; height: auto;}
+        .loginbg{ background: #1890ff; position: absolute; width: 100%; height: 300px;  left: 0; top: 0; z-index: 0;}
+        .loginav{width: 870px; padding: 0 50px; margin: 0 auto;  background: #fff; z-index: 10; position: relative; margin-top:195px; padding-bottom: 50px;margin-bottom: 50px; box-shadow: 0 0 30px rgba(0,0,0,.1)}
+
+        .logo2{left: 0px;font-size: 30px; color: #fff; position: absolute; width: 100%; top: -45px; text-align: center;padding-bottom: 26px;}
+        .logotit{ text-align: center; padding: 40px 0; font-size: 30px;}
+        .loginav2{width: 600px;padding: 0 65px; }
+
+        .btnblock{border-radius: 0!important;}
+        .loginbox{padding: 50px 0 70px 0;}
+        .logininput .forminput{ border: none;  width: 100%; line-height: 48px; outline: none; text-indent: 1px; /*display: block;}*/ }
+        .logininput>li{ padding-top:5px; position: relative;border-bottom: 1px solid #efefef; /*display: block;}*/ }
+        .logininput li>span{color: #ccc;}
+        .logintit{ border-bottom: 0px solid #efefef; color: grey; position: relative; padding: 15px 0; font-size: 16px; text-indent: 20px;
+            border: none; background-color: white; }  /* 修改tab标签样式 */
+        .logintit.active{color: #1263f0;}  /* tab标签选中时显示蓝色 */
+        .logintit:before{ position: absolute; content: ""; height: 4px; background: #1263f0; width: 100px; left: 0; bottom: -2px;}
+        .btn-primary{background: #1890ff; border-color: #1890ff;}
+    </style>
+</head>
+
+<body>
+    <div class="loginav  loginav2">
+        <!-- 小标题 -->
+        <div class="logo2">易管银务</div>
+
+        <!-- 登录框 -->
+        <div class="loginbox">
+            <!-- tab 标签页 -->
+            <div class="tab">
+                <!-- tab 选项卡 -->
+                <button class="tab-btn active logintit" onclick="openTab(event, 'personalUser_tabContent')">个人用户</button>
+                <button class="tab-btn logintit" onclick="openTab(event, 'enterpriseUser_tabContent')">企业用户</button>
+                <button class="tab-btn logintit" onclick="openTab(event, 'staff_tabContent')">银行员工</button>
+
+                <!-- 选项卡内容 -->
+                <!-- 个人用户选项 -->
+                <div id="personalUser_tabContent" class="tab-content" style="display: block">
+                    <ul class="logininput">
+                        <!-- 用户名输入框 -->
+                        <li><input id="personalUser_username_input" class="forminput" type="text" placeholder="请输入用户名"></li>
+                        <!-- 密码输入框 -->
+                        <li><input id="personalUser_password_input" class="forminput" type="password" placeholder="请输入密码"></li>
+                        <!-- 空白间隔 -->
+                        <div class="clearfix" style="padding: 12px 0;">
+                            <!-- 用户注册超链接 -->
+                            <div class="pull-right"><a href="register_personalUser.html" class="text-primary">用户注册</a></div>
+                        </div>
+                        <!-- 用户登录按钮 -->
+                        <li><button id="personalUser_login_btn" class="btn btnblock btn-block btn-primary" onclick="personalUserLogin(event)">用户登录</button></li>
+                    </ul>
+                </div>
+
+                <!-- 企业用户选项 -->
+                <div id="enterpriseUser_tabContent" class="tab-content" style="display: none">
+                    <ul class="logininput">
+                        <!-- 用户名输入框 -->
+                        <li><input id="enterpriseUser_username_input" class="forminput" type="text" placeholder="请输入用户名"></li>
+                        <!-- 企业名称输入框 -->
+                        <li><input id="enterpriseUser_enterprise_input" class="forminput" type="text" placeholder="请输入企业名"></li>
+                        <!-- 密码输入框 -->
+                        <li><input id="enterpriseUser_password_input" class="forminput" type="password" placeholder="请输入密码"></li>
+                        <!-- 空白间隔 -->
+                        <div class="clearfix" style="padding: 12px 0;">
+                            <!-- 用户注册超链接 -->
+                            <div class="pull-right"><a href="register_enterpriseUser.html" class="text-primary">用户注册</a></div>
+                        </div>
+                        <!-- 用户登录按钮 -->
+                        <li><button id="enterpriseUser_login_btn" class="btn btnblock btn-block btn-primary" onclick="enterpriseUserLogin(event)">用户登录</button></li>
+                    </ul>
+                </div>
+
+                <!-- 银行雇员选项 -->
+                <div id="staff_tabContent" class="tab-content" style="display: none">
+                    <ul class="logininput">
+                        <!-- 用户名输入框 -->
+                        <li><input id="staff_username_input" class="forminput" type="text" placeholder="请输入用户名"></li>
+                        <!-- 密码输入框 -->
+                        <li><input id="staff_password_input" class="forminput" type="password" placeholder="请输入密码"></li>
+                        <!-- 空白间隔 -->
+                        <div class="clearfix" style="padding: 12px 0;">
+                            <!-- 雇员注册超链接 -->
+                            <div class="pull-right"><a href="register_staff.html" class="text-primary">员工注册</a></div>
+                        </div>
+                        <!-- 雇员登录按钮 -->
+                        <li><button id="staff_login_btn" class="btn btnblock btn-block btn-primary" onclick="staffLogin(event)">员工登录</button></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- 页面背景 -->
+    <div class="loginbg"></div>
+</body>
+
+<!-- 导入ajax -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // tab 标签页面切换
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+    // 个人用户登录
+    function personalUserLogin(evt) {
+        // 获取文本框内容
+        var username = document.getElementById("personalUser_username_input").value.toString();
+        var password = document.getElementById("personalUser_password_input").value.toString();
+        // 使用 ajax 发送 post 请求
+        $.ajax({
+            url: '/personalUsers/checkPassword/username=' + username + '&password=' + password,
+            method: 'POST',
+            data: {},
+            success: function (data) {
+                console.log(data);
+                alert(String(data["msg"]));
+
+                // 密码验证成功则跳转至用户管理界面
+                if (Boolean(data["data"])) {
+                    window.location.href = "./manage_personalUser.html";
+                    // 跨页变量存入 localStorage
+                    localStorage.setItem("username_login", username);
+                    localStorage.setItem("role_login", "personalUser");
+                }
+            },
+            err: function (err) {
+                console.log(err);
+            }
+        })
+    }
+
+    // 企业用户登录
+    function enterpriseUserLogin(evt) {
+        // 获取文本框内容
+        var username = document.getElementById("enterpriseUser_username_input").value.toString();
+        var password = document.getElementById("enterpriseUser_password_input").value.toString();
+        var enterprise = document.getElementById("enterpriseUser_enterprise_input").value.toString();
+        // 使用 ajax 发送 post 请求
+        $.ajax({
+            url: '/enterpriseUsers/check/username=' + username + '&password=' + password + '&enterprise=' + enterprise,
+            method: 'POST',
+            data: {},
+            success: function (data) {
+                console.log(data);
+                alert(String(data["msg"]));
+
+                // 密码验证成功则跳转至用户管理界面
+                if (Boolean(data["data"])) {
+                    window.location.href = "./manage_enterpriseUser.html";
+                    // 跨页变量存入 localStorage
+                    localStorage.setItem("username_login", username);
+                    localStorage.setItem("enterprise_login", enterprise);
+                    localStorage.setItem("role_login", "enterpriseUser");
+                }
+            },
+            err: function (err) {
+                console.log(err);
+            }
+        })
+    }
+
+    // 员工登录
+    function staffLogin(evt) {
+        // 获取文本框内容
+        var username = document.getElementById("staff_username_input").value.toString();
+        var password = document.getElementById("staff_password_input").value.toString();
+        // 使用 ajax 发送 post 请求
+        FLG = true;
+        $.ajax({
+            url: '/staffs/checkPassword/username=' + username + '&password=' + password,
+            method: 'POST',
+            data: {},
+            async: false,
+            success: function (data) {
+                console.log(data);
+                alert(String(data["msg"]));
+
+                if (!Boolean(data["data"])) {
+                    FLG = false;
+                }
+            },
+            err: function (err) {
+                console.log(err);
+            }
+        })
+        if (!FLG) return;
+
+        // 查询雇员的类型
+        $.ajax({
+            url: '/staffs/queryType/username=' + username,
+            method: 'POST',
+            data: {},
+            async: false,
+            success: function (data) {
+                console.log(data);
+
+                if (String(data["code"]) === "20041") {
+                    localStorage.setItem("type_login", String(data["data"]));
+                }
+            },
+            err: function (err) {
+                console.log(err);
+            }
+        })
+        // 查询雇员的部门
+        $.ajax({
+            url: '/staffs/queryDepartment/username=' + username,
+            method: 'POST',
+            data: {},
+            async: false,
+            success: function (data) {
+                console.log(data);
+
+                if (String(data["code"]) === "20041") {
+                    localStorage.setItem("department_login", String(data["data"]));
+                }
+            },
+            err: function (err) {
+                console.log(err);
+            }
+        })
+        // 跨页变量存入 localStorage
+        localStorage.setItem("username_login", username);
+        localStorage.setItem("role_login", "Staff");
+        // 密码验证成功则跳转至员工管理界面
+        window.location.href = "./manage_staff.html";
+    }
+
+</script>
+
+</html>

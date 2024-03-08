@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <title>易管银务-员工注册</title>
+    <!-- css 样式 -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        body{font-size: 14px; height: auto;}
+        .loginbg{ background: #1890ff; position: absolute; width: 100%; height: 300px;  left: 0; top: 0; z-index: 0;}
+        .loginav{width: 870px; padding: 0 50px; margin: 0 auto;  background: #fff; z-index: 10; position: relative; margin-top:195px; padding-bottom: 50px;margin-bottom: 50px; box-shadow: 0 0 30px rgba(0,0,0,.1)}
+
+        .logo2{left: 0px;font-size: 30px; color: #fff; position: absolute; width: 100%; top: -45px; text-align: center;padding-bottom: 26px;}
+        .logotit{ text-align: center; padding: 40px 0; font-size: 30px;}
+        .loginav2{width: 600px;padding: 0 65px; }
+
+        .btnblock{border-radius: 0!important;}
+        .loginbox{padding: 50px 0 70px 0;}
+        .logininput .forminput{ border: none;  width: 100%; line-height: 48px; outline: none; text-indent: 1px; /*display: block;}*/ }
+        .logininput>li{ padding-top:5px; position: relative;border-bottom: 1px solid #efefef; /*display: block;}*/ }
+        .logininput li>span{color: #ccc;}
+        .logintit{ border-bottom: 0px solid #efefef; color: #1263f0; position: relative; padding: 15px 0; font-size: 16px; text-indent: 8px;
+            border: none; background-color: white; }  /* 修改tab标签样式 */
+        .logintit:before{ position: absolute; content: ""; height: 4px; background: #1263f0; width: 100px; left: 0; bottom: -2px;}
+        .btn-primary{background: #1890ff; border-color: #1890ff;}
+    </style>
+</head>
+
+<body>
+<div class="loginav  loginav2">
+    <!-- 小标题 -->
+    <div class="logo2">银行员工注册</div>
+
+    <!-- 登录框 -->
+    <div class="loginbox">
+        <!-- 标签栏 -->
+        <div class="logintit">创建新员工</div>
+
+        <ul class="logininput">
+            <!-- 用户名输入框 -->
+            <li><input id="staff_register_username_input" class="forminput" type="text" placeholder="请输入新用户名"></li>
+            <!-- 密码输入框 -->
+            <li><input id="staff_register_password_input" class="forminput" type="password" placeholder="请输入密码"></li>
+            <!-- 职级下拉框 -->
+            <li>
+                <div class="clearfix" style="padding: 12px 0;">
+                    <select id="staff_register_type_select" class="forminput">
+                        <option>前台操作员</option>
+                        <option>银行经理</option>
+                        <option>银行业务总管</option>
+                        <option>系统管理员</option>
+                    </select>
+                </div>
+            </li>
+            <!-- 部门下拉框 -->
+            <li>
+                <div class="clearfix" style="padding: 12px 0;">
+                    <select id="staff_register_department_select" class="forminput">
+                        <option>个人业务部</option>
+                        <option>企业业务部</option>
+                    </select>
+                </div>
+            </li>
+            <!-- 员工注册按钮 -->
+            <div class="clearfix" style="padding: 12px 0;"></div>
+            <li><button id="personalUser_register_btn" class="btn btnblock btn-block btn-primary" onclick="StaffRegister(event)">注册新员工</button></li>
+        </ul>
+    </div>
+
+</div>
+<!-- 页面背景 -->
+<div class="loginbg"></div>
+</body>
+
+<!-- 导入ajax -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // 注册银行员工
+    function StaffRegister(evt) {
+        // 获取文本框内容
+        var username = document.getElementById("staff_register_username_input").value.toString();
+        var password = document.getElementById("staff_register_password_input").value.toString();
+        var type = document.getElementById("staff_register_type_select").value.toString();
+        var department = document.getElementById("staff_register_department_select").value.toString();
+
+        switch (type) {
+            case "前台操作员": {type = "operator"; break;}
+            case "银行经理": {type = "manager"; break;}
+            case "银行业务总管": {type = "boss"; break;}
+            case "系统管理员": {type = "admin"; break;}
+        }
+        switch (department) {
+            case "个人业务部": {department = "personal"; break;}
+            case "企业业务部": {department = "enterprise"; break;}
+        }
+
+        // 使用 ajax 发送 post 请求
+        $.ajax({
+            url: '/staffs/createStaff',
+            method: 'POST',
+            data: JSON.stringify({
+                username: username,
+                password: password,
+                type: type,
+                department: department
+            }),
+            contentType: "application/json",
+            success: function (data) {
+                console.log(data);
+
+                if (Boolean(data["data"])) {
+                    alert("新员工注册成功，请重新登录！")
+                    window.location.href = "./login.html";
+                }
+                else {
+                    alert(data["msg"]);
+                }
+            },
+            err: function (err) {
+                console.log(err);
+            }
+        })
+    }
+</script>
+
+</html>

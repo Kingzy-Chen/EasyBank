@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>易管银务-个人用户主页</title>
+    <!-- css 样式 -->
+    <script src="js/jquery.js"></script>
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/style-responsive.css" rel="stylesheet">
+    <link href="css/default-theme.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/bootstrap-reset.css" rel="stylesheet">
+</head>
+
+<body class="sticky-header">
+<section>
+    <!-- 侧边菜单 -->
+    <div class="sidebar-left">
+        <div class="sidebar-left-info">
+            <div class="search-field"></div>
+
+            <!-- 菜单列表 -->
+            <ul class="nav nav-pills nav-stacked side-navigation">
+                <!-- 子列表: 银行账户管理 -->
+                <li class="menu-list"> <a href=""><i class="fa fa-file-text"></i> <span>银行账户管理</span></a>
+                    <ul class="child-list">
+                        <li><a href="manage_personalUser_注册账户.html">注册账户</a></li>
+                        <li><a href="manage_personalUser_注销账户.html">注销账户</a></li>
+                        <li><a href="manage_personalUser_账户密码修改.html">修改密码</a></li>
+                    </ul>
+                </li>
+                <!-- 子列表: 存取款与转账 -->
+                <li class="menu-list"> <a href=""><i class="fa fa-file-text"></i> <span>存取款与转账</span></a>
+                    <ul class="child-list">
+                        <li><a href="manage_personalUser_存款.html">存款</a></li>
+                        <li><a href="manage_personalUser_取款.html">取款</a></li>
+                        <li><a href="manage_personalUser_转账.html">转账</a></li>
+                        <li><a href="manage_personalUser_查询.html">查询</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <!-- 顶栏 -->
+    <div class="body-content">
+        <div class="header-section">
+            <!-- logo与标题 -->
+            <div class="logo dark-logo-bg"> <a href="manage_personalUser.html"> <img src="img/logo-icon.png" alt="">
+                <span class="brand-name" style="font-size: 15px; font-weight: bold;">个人用户主页</span>
+            </a> </div>
+            <div class="icon-logo dark-logo-bg hidden-xs hidden-sm"> <a href="manage_personalUser.html"><img src="img/logo-icon.png" alt=""> </a> </div>
+            <!-- 侧边栏隐藏按钮 -->
+            <a class="toggle-btn"><i class="fa fa-outdent"></i></a>
+            <div class="kouhao">用我们的智慧，为您创造财富</div>
+
+            <!-- 右上角菜单 -->
+            <div class="notification-wrap">
+                <div class="right-notification">
+                    <ul class="notification-menu">
+                        <!-- 当前登录用户名 -->
+                        <li> <a id="username_login" onclick="showUsername(event)">欢迎</a> </li>
+                        <!-- 用户设置 -->
+                        <li class="dropdown">
+                            <a href="javascript:" data-toggle="dropdown" class="dropdown-toggle" aria-expanded="false"> <i class="fa  fa-cogs"></i> 用户设置 <b class=" fa fa-angle-down"></b> </a>
+                            <ul role="menu" class="dropdown-menu language-switch">
+                                <li> <a href="manage_personalUser_用户密码修改.html">密码修改</a> </li>
+                                <li> <a onclick="deleteUser(event)">用户注销</a></li>
+                            </ul>
+                        </li>
+                        <li> <a href="login.html" class="btn btn-default  dropdown-toggle"> <i class="fa fa-sign-out"></i>退出登录 </a> </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <!---------------- 变化的内容填在下面区域 ------------------>
+        <div class="page-head">
+            <ol class="breadcrumb">
+                <li><a href="#">用户设置</a></li>
+                <li  class="active">密码修改</li>
+            </ol>
+            <h3>密码修改</h3>
+        </div>
+
+        <div class="wrapper">
+            <div class="panel">
+                <div class="panel-body">
+                    <ul class="row">
+                        <li class="col-xs-6">
+                            <div class="form1 form2">
+                                <ul class="row">
+                                    <li class="col-xs-12"> <span>用户旧密码：</span><input id="old_password_input" type="text" class="form-control"></li>
+                                    <li class="col-xs-12"> <span>用户新密码：</span><input id="new_password_input" type="password" class="form-control"></li>
+                                    <li class="col-xs-12"> <span>确认新密码：</span><input id="confirm_password_input" type="password" class="form-control"></li>
+                                    <li class="col-xs-12"> <a href="" class="btn btn-primary" onclick="changeUserPassword(event)">提交</a> </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!---------------- 变化的内容填在上面区域 ------------------>
+
+
+    </div>
+</section>
+
+<script src="js/bootstrap.js"></script>
+<script src="js/echarts.min.js"></script>
+<script src="js/scripts.js"></script>
+<script src="laydate/laydate.js"></script>
+<script>
+    lay('#version').html('-v'+ laydate.v);
+    laydate.render({
+        elem: '#test1'
+        ,range: true
+        ,theme: '#1890ff'
+    });
+</script>
+
+
+<!-- 导入ajax -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // 显示当前登录的用户名
+    function showUsername(evt) {
+        var username_login = localStorage.getItem("username_login");
+        document.getElementById("username_login").innerHTML = "您好 " + username_login;
+    }
+
+    // 注销用户按钮确认弹框
+    function deleteUser(evt) {
+        if (window.confirm("确认注销当前用户？")) {
+            var username = localStorage.getItem("username_login");
+
+            // 使用 ajax 发送 post 请求
+            $.ajax({
+                url: '/personalUsers/deleteUser/username=' + username,
+                method: 'POST',
+                data: {},
+                success: function (data) {
+                    console.log(data);
+
+                    // 注销用户成功则跳转回登录界面
+                    if (Boolean(data["data"])) {
+                        alert("注销用户成功！");
+                        window.location.href = "./login.html";
+                    }
+                    else {
+                        alert(data["msg"]);
+                    }
+                },
+                err: function (err) {
+                    console.log(err);
+                }
+            })
+        }
+    }
+    // ---------------- 变化的内容填在下面区域 ------------------
+
+    // 修改个人用户密码
+    function changeUserPassword(evt) {
+        var old_password = document.getElementById("old_password_input").value.toString();
+        var new_password = document.getElementById("new_password_input").value.toString();
+        var confirm_password = document.getElementById("confirm_password_input").value.toString();
+
+        if (old_password === "" || new_password === "" || confirm_password === "") {
+            alert("请输入完整信息！");
+            return;
+        }
+        if (new_password !== confirm_password) {
+            alert("新密码与确认密码不一致！");
+            return;
+        }
+
+        // 验证旧密码
+        FLG = true;
+        var username = localStorage.getItem("username_login");
+
+        $.ajax({
+            url: '/personalUsers/checkPassword/username=' + username + '&password=' + old_password,
+            method: 'POST',
+            data: {},
+            async: false,
+            success: function (data) {
+                console.log(data);
+                // 密码验证
+                if (!Boolean(data["data"])) {
+                    FLG = false;
+                }
+            },
+            err: function (err) {
+                console.log(err);
+            }
+        })
+        if (!FLG) {
+            alert("旧密码错误！请重试！");
+            return;
+        }
+
+        // 修改密码
+        $.ajax({
+            url: '/personalUsers/changePassword/username=' + username + '&password=' + new_password,
+            method: 'POST',
+            data: {},
+            async: false,
+            success: function (data) {
+                console.log(data);
+                alert(data["msg"]);
+            },
+            err: function (err) {
+                console.log(err);
+            }
+        })
+    }
+
+    // ---------------- 变化的内容填在上面区域 ------------------
+</script>
+
+
+
+</body>
+
+</html>
